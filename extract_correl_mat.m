@@ -12,11 +12,11 @@ clearvars
 corr_info               = [];
 corr_info.date          = date;
 
-corr_info.wdir          = 'C:\Users\Raphael\Desktop\conn_ana\results\secondlevel\';     % Specify path to CONN second-level folder
+corr_info.wdir          = '';     % Specify path to CONN second-level folder
 
 corr_info.corr_net      = 'DMN';                % Specify analysis name (i.e network of interest)
-corr_info.corr_group    = 'Control';            % Specify group (ex: Patients, Controls, AllSubjects)
-corr_info.corr_run      = 'Session1';           % Specify session
+corr_info.corr_group    = 'AllSubjects';        % Specify group (ex: Patients, Controls, AllSubjects)
+corr_info.corr_run      = 'rest';               % Specify session
 
 corr_info.corr_folder   = [ corr_info.wdir '\' corr_info.corr_net '\' corr_info.corr_group '\' corr_info.corr_run '\' ];
 
@@ -44,22 +44,20 @@ for i = 1:numROI
     
     % Split network name (ex DMN.MPFC >> MPFC)
     split = strsplit(corr_name{i}, '.');
-    if numel(split) == 2 ;
-        corr_name(i)= cellstr(split(2));
-    end
+    corr_name(i)= cellstr(split(end));
 end
 
 % Export to CSV
-if do_csv
-    corr_name2  = strrep(corr_name, '-', '_');      % array2table does not work with '-' in var names
-    T_h         = array2table(corr_h, 'RowNames', corr_name2, 'VariableNames', corr_name2);
-    T_F         = array2table(corr_F, 'RowNames', corr_name2, 'VariableNames', corr_name2);
-    T_p         = array2table(corr_p, 'RowNames', corr_name2, 'VariableNames', corr_name2);
-    
-    writetable( T_h, [corr_info.corr_folder 'beta_' corr_info.corr_net '_' corr_info.corr_group '_' corr_info.corr_run '.csv'], 'WriteVariableNames', true, 'WriteRowNames', true, 'delimiter', 'semi' );
-    writetable( T_F, [corr_info.corr_folder 'F_' corr_info.corr_net '_' corr_info.corr_group '_' corr_info.corr_run '.csv'], 'WriteVariableNames', true, 'WriteRowNames', true, 'delimiter', 'semi');
-    writetable( T_p, [corr_info.corr_folder 'p_' corr_info.corr_net '_' corr_info.corr_group '_' corr_info.corr_run '.csv'], 'WriteVariableNames', true, 'WriteRowNames', true, 'delimiter', 'semi');
-end
+
+corr_name2  = strrep(corr_name, '-', '_');      % array2table does not work with '-' in var names
+T_h         = array2table(corr_h, 'RowNames', corr_name2, 'VariableNames', corr_name2);
+T_F         = array2table(corr_F, 'RowNames', corr_name2, 'VariableNames', corr_name2);
+T_p         = array2table(corr_p, 'RowNames', corr_name2, 'VariableNames', corr_name2);
+
+writetable( T_h, [corr_info.corr_folder 'beta_' corr_info.corr_net '_' corr_info.corr_group '_' corr_info.corr_run '.csv'], 'WriteVariableNames', true, 'WriteRowNames', true, 'delimiter', 'semi' );
+writetable( T_F, [corr_info.corr_folder 'F_' corr_info.corr_net '_' corr_info.corr_group '_' corr_info.corr_run '.csv'], 'WriteVariableNames', true, 'WriteRowNames', true, 'delimiter', 'semi');
+writetable( T_p, [corr_info.corr_folder 'p_' corr_info.corr_net '_' corr_info.corr_group '_' corr_info.corr_run '.csv'], 'WriteVariableNames', true, 'WriteRowNames', true, 'delimiter', 'semi');
+
 
 % Plot using function plot_correl_mat_conn.m
 % ====================================================================
@@ -116,13 +114,13 @@ if do_plot
     
     % Run plot function
     corr_info.corr_type   = 'h';
-    plot_correl_mat_conn(corr_info)
+    plot_correl_mat(corr_info)
     
     corr_info.corr_type   = 'F';
-    plot_correl_mat_conn(corr_info)
+    plot_correl_mat(corr_info)
     
     corr_info.corr_type   = 'p';
-    plot_correl_mat_conn(corr_info)
+    plot_correl_mat(corr_info)
     
 end
 
