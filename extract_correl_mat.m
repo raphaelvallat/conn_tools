@@ -12,15 +12,15 @@ clearvars
 corr_info               = [];
 corr_info.date          = date;
 
-corr_info.wdir          = '';     % Specify path to CONN second-level folder
+corr_info.wdir          = 'C:\Users\Raphael\Desktop\These\CONN_Club_Neuro\Conn_ClubNeuro_Example\results\secondlevel\';       % Specify path to CONN second-level folder
 
-corr_info.corr_net      = 'DMN';                % Specify analysis name (i.e network of interest)
-corr_info.corr_group    = 'AllSubjects';        % Specify group (ex: Patients, Controls, AllSubjects)
-corr_info.corr_run      = 'rest';               % Specify session
+corr_info.corr_net      = 'Salience';                               % Specify analysis name (i.e network of interest)
+corr_info.corr_group    = 'AllSubjects';                            % Specify group (ex: Patients, Controls, AllSubjects)
+corr_info.corr_run      = 'rest';                                   % Specify session
 
 corr_info.corr_folder   = [ corr_info.wdir '\' corr_info.corr_net '\' corr_info.corr_group '\' corr_info.corr_run '\' ];
 
-load([corr_info.corr_folder 'ROI.mat']);        % ROI.mat is created when clicking 'results-explorer' in second-level interface
+load([corr_info.corr_folder 'ROI.mat']);                    % ROI.mat is created when clicking 'results-explorer' in second-level interface
 
 numROI  = size(ROI, 2);
 
